@@ -31,7 +31,14 @@ const HotelSchema = new mongoose.Schema({
     region:{
         type: String,
         required:[true,'Please add a region']
-    }
+    },
+    rating: {
+        type: Number,
+        min: 0,
+        max: 5,
+        default: 0,
+        set: (val) => parseFloat(val.toFixed(1))
+      }
 },
     {
         toJSON:{virtuals:true},
