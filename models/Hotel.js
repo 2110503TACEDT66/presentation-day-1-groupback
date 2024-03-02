@@ -62,8 +62,16 @@ HotelSchema.virtual('bookings',{
 });
 
 HotelSchema.virtual('stars').get(function() {
-
-    return "\u2605".repeat(Math.round(this.rating))  + "\u2606".repeat(5 - Math.round(this.rating))
+    const rating = parseFloat(this.rating);
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 !== 0;
+    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+    let starsRepresentation = "★".repeat(fullStars);
+    if (halfStar) {
+        starsRepresentation += "✬";
+    }
+    starsRepresentation += "☆".repeat(emptyStars);
+    return starsRepresentation;
 });
 
 
