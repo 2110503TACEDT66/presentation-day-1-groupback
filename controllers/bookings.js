@@ -126,7 +126,7 @@ exports.updateBooking= async (req,res,next)=>{
         let booking = await Booking.findById(req.params.id);
 
         if (!booking) {
-            res.status(404).json({
+            return res.status(404).json({
                 success:false,
                 massage:`No booking with the id of ${req.params.id}`
             });
@@ -134,7 +134,7 @@ exports.updateBooking= async (req,res,next)=>{
 
         //Make sure user is the booking owner
         if (booking.user.toString()!==req.user.id && req.user.role !== 'admin') {
-            res.status(401).json({
+            return res.status(401).json({
                 success:false,
                 massage:`User ${req.user.id} is not authorized to update this booking`
             });
@@ -167,7 +167,7 @@ exports.deleteBooking= async (req,res,next)=>{
         const booking = await Booking.findById(req.params.id);
 
         if (!booking) {
-            res.status(404).json({
+            return res.status(404).json({
                 success:false,
                 massage:`No booking with the id of ${req.params.id}`});
     
@@ -175,7 +175,7 @@ exports.deleteBooking= async (req,res,next)=>{
 
         //Make sure user is the booking owner
         if (booking.user.toString()!==req.user.id && req.user.role !== 'admin') {
-            res.status(401).json({
+            return res.status(401).json({
                 success:false,
                 massage:`User ${req.user.id} is not authorized to delete this booking`
             });
