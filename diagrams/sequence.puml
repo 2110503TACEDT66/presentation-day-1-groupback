@@ -4,16 +4,17 @@ actor user
 participant server
 control router
 control controller
+entity models
 database MongoDB as db
 collections data
 user -> server : GET /api/v1/hotels
 server -> router : hotels
-router -> controller : hotels
-controller -> db : find()
-db -> data : find()
+router -> controller : getHotels
+controller -> models : Hotel
+models -> db : find(query)
+db -> data : find(query)
 db <-- data : data
-controller <-- db : data
-router <-- controller : response
-server <-- router : response
-user <-- server : response
+models <-- db : data
+controller <-- models : data
+user <-- controller : response
 @enduml
