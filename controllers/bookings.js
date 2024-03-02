@@ -121,40 +121,53 @@ exports.addBooking= async (req,res,next)=>{
 //@desc Update booking
 //@route PUT /api/v1/bookings/:id
 //@access Private
-exports.updateBooking= async (req,res,next)=>{
+exports.updateBooking = async (req, res, next) => {
     try {
         let booking = await Booking.findById(req.params.id);
 
         if (!booking) {
             return res.status(404).json({
-                success:false,
-                massage:`No booking with the id of ${req.params.id}`
+                success: false,
+                massage: `No booking with the id of ${req.params.id}`
             });
         }
 
         //Make sure user is the booking owner
-        if (booking.user.toString()!==req.user.id && req.user.role !== 'admin') {
+        if (booking.user.toString() !== req.user.id && req.user.role !== 'admin') {
             return res.status(401).json({
-                success:false,
-                massage:`User ${req.user.id} is not authorized to update this booking`
+                success: false,
+                massage: `User ${req.user.id} is not authorized to update this booking`
             });
-            
+
         }
-        booking = await Booking.findByIdAndUpdate(req.params.id,req.body,{
-            new:true,
-            runValidators:true
-        });
+
+        // Update hotel field
+        if (req.body.hotel) {
+            booking.hotel = req.body.hotel;
+        }
+
+        // Update checkIn field
+        if (req.body.checkIn) {
+            booking.checkIn = req.body.checkIn;
+        }
+        
+        // Update checkOut field
+        if (req.body.checkOut) {
+            booking.checkOut = req.body.checkOut;
+        }
+
+        booking = await booking.save();
 
         res.status(200).json({
-            seccess:true,
-            data:booking
+            success: true,
+            data: booking
         });
 
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            seccess:false,
-            message:"Cannot update Booking"
+            success: false,
+            message: "Cannot update Booking"
         });
     }
 };
