@@ -1,0 +1,19 @@
+@startuml sequence
+skinparam actorStyle Hollow
+actor user
+participant server
+control router
+control controller
+database MongoDB as db
+collections data
+user -> server : GET /api/v1/hotels
+server -> router : hotels
+router -> controller : hotels
+controller -> db : find()
+db -> data : find()
+db <-- data : data
+controller <-- db : data
+router <-- controller : response
+server <-- router : response
+user <-- server : response
+@enduml

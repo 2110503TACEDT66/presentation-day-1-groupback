@@ -1,0 +1,22 @@
+@startuml usecase
+skinparam actorStyle awesome
+(Register)
+(Login)
+(Manage\nBookings) as ManageBookings
+(Manage\nHotels) as ManageHotels
+(View\nBookings) as ViewBookings
+(View\nHotels) as ViewHotels
+:User:
+:Admin:
+User --> Register
+User --> Login
+User --> ViewBookings
+User --> ManageBookings
+User --> ViewHotels
+Admin --> Register
+Admin --> Login
+Admin --> ViewBookings
+Admin --> ManageBookings
+Admin --> ViewHotels
+Admin --> ManageHotels
+@enduml
