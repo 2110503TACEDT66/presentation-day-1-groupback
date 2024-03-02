@@ -37,7 +37,7 @@ const HotelSchema = new mongoose.Schema({
         min: 0,
         max: 5,
         default: 0,
-        set: (val) => parseFloat(val.toFixed(1))
+        set: (val) => parseFloat(val.toFixed(2))
       }
 },
     {
@@ -62,16 +62,8 @@ HotelSchema.virtual('bookings',{
 });
 
 HotelSchema.virtual('stars').get(function() {
-    const rating = parseFloat(this.rating);
-    const fullStars = Math.floor(rating);
-    const halfStar = rating % 1 !== 0;
-    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-    let starsRepresentation = "★".repeat(fullStars);
-    if (halfStar) {
-        starsRepresentation += "✬";
-    }
-    starsRepresentation += "☆".repeat(emptyStars);
-    return starsRepresentation;
+    const rating = Math.round(parseFloat(this.rating) * 2);
+    return "★".repeat(Math.floor(rating / 2)) + "✬".repeat(rating % 2) + "☆".repeat(5 - Math.ceil(rating / 2));
 });
 
 
