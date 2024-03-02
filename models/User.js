@@ -37,12 +37,25 @@ const UserSchema = new mongoose.Schema({
         type:Date,
         default:Date.now
     }
-});
+},
+    {
+        toJSON:{virtuals:true},
+        toObject:{virtuals:true}
+    }
+);
 
 //Encrypt password using bcrypt
 UserSchema.pre('save',async function(next){
     const salt = await bcrypt.genSalt(10);
     this.password=await bcrypt.hash(this.password,salt);
+});
+
+//Reverse populate with virtuals
+UserSchema.virtual('mybookings',{
+    ref:'Booking',
+    localField:'_id',
+    foreignField:'user',
+    justOne:false
 });
 
 //Sign JWT and return
