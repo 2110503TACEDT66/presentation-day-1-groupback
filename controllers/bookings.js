@@ -9,7 +9,7 @@ exports.getBookings= async (req,res,next)=>{
     if (req.user.role !== 'admin') {
         query=Booking.find({user:req.user.id}).populate({
             path:'hotel',
-            select:' name province tel'
+            select:' name province tel rating'
         });
     
     }else{//If you are an admin , you can see all
@@ -19,7 +19,7 @@ exports.getBookings= async (req,res,next)=>{
         } else {
             query=Booking.find().populate({
                 path:'hotel',
-                select:' name province tel'
+                select:' name province tel rating'
             });
         }
     }
