@@ -145,7 +145,9 @@ exports.deleteUser= async(req,res,next)=>{
     try {
         const user = await User.findById(req.params.id);
         if (!user) {
-            return res.status(400).json({seccess:false});
+            return res.status(404).json({
+                success:false,
+                massage:`No user with the id of ${req.params.id}`});
         }
         //Make sure user is the user owner
         if (user._id.toString() !== req.user.id) {
@@ -158,8 +160,12 @@ exports.deleteUser= async(req,res,next)=>{
         }
         await user.deleteOne();
         res.status(200).json({seccess:true,data:{}});
-    } catch (err) {
-        res.status(400).json({seccess:false});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            seccess:false,
+            message:"Cannot dalete User"
+        });
     }
 }
 
