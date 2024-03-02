@@ -87,7 +87,7 @@ exports.addBooking= async (req,res,next)=>{
 
         //If the user is not an admin,the can only create 3 booking.
         if (existedBookings.length>=3 && req.user.role !== 'admin') {
-            res.status(400).json({
+            return res.status(400).json({
                 success:false,
                 massage:`The user with ID ${req.user.id} has already made 3 bookings`});
         }
@@ -96,7 +96,7 @@ exports.addBooking= async (req,res,next)=>{
         const hotel = await Hotel.findById(req.params.hotelId);
 
         if (!hotel) {
-            res.status(404).json({
+            return res.status(404).json({
                 success:false,
                 massage:`No hotel with the id of ${req.params.hotelId}`});
     

@@ -12,6 +12,12 @@ const BookingSchema = new mongoose.Schema({
     checkOut: {
         type: Date,
         required: true,
+        validate: {
+            validator: function(value) {
+                return value > this.checkIn;
+            },
+            message: 'Checkout must come after checkin'
+        }
     },
     user:{
         type:mongoose.Schema.ObjectId,
