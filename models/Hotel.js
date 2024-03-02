@@ -66,6 +66,4 @@ HotelSchema.virtual('stars').get(function() {
     return "★".repeat(Math.floor(rating / 2)) + "✬".repeat(rating % 2) + "☆".repeat(5 - Math.ceil(rating / 2));
 });
 
-
-
 module.exports = mongoose.model('Hotel',HotelSchema);

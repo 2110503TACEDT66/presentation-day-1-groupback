@@ -50,6 +50,13 @@ UserSchema.pre('save',async function(next){
     this.password=await bcrypt.hash(this.password,salt);
 });
 
+//Cascade delete bookings when a user is deleted
+UserSchema.pre('deleteOne',{document:true , query : false},async function(next){
+    console.log(`Bookings being removed from user ${this._id}`);
+    await this.model('Booking').deleteMany({user:this._id});
+    next();
+});
+
 //Reverse populate with virtuals
 UserSchema.virtual('mybookings',{
     ref:'Booking',
