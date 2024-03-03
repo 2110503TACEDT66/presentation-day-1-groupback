@@ -2,7 +2,7 @@ const User = require('../models/User')
 
 //@desc Get all users
 //@route GET /api/v1/users
-//@access Public
+//@access Private
 exports.getUsers= async (req,res,next)=>{
     let query;
 
