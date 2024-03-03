@@ -6,6 +6,8 @@ skinparam actorStyle awesome
 (Manage\nHotels) as ManageHotels
 (View\nBookings) as ViewBookings
 (View\nHotels) as ViewHotels
+(View\nUsers) as ViewUsers
+(Manage\nSelf) as ManageSelf
 :User:
 :Admin:
 User --> Register
@@ -13,10 +15,13 @@ User --> Login
 User --> ViewBookings
 User --> ManageBookings
 User --> ViewHotels
+User --> ManageSelf
 Admin --> Register
 Admin --> Login
 Admin --> ViewBookings
 Admin --> ManageBookings
 Admin --> ViewHotels
 Admin --> ManageHotels
+Admin --> ManageSelf
+Admin --> ViewUsers
 @enduml

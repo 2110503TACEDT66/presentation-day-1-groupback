@@ -2,6 +2,7 @@
 class controllers.auth
 class controllers.bookings
 class controllers.hotels
+class controllers.users
 class middleware.auth
 class models.Booking
 class models.Hotel
@@ -9,6 +10,7 @@ class models.User
 class routes.auth
 class routes.bookings
 class routes.hotels
+class routes.users
 class server
 class config.config
 class config.db
@@ -17,6 +19,7 @@ server ..> config.db
 server ..> routes.hotels
 server ..> routes.auth
 server ..> routes.bookings
+server ..> routes.users
 routes.auth ..> controllers.auth
 routes.auth ..> middleware.auth
 routes.bookings ..> controllers.bookings
@@ -24,9 +27,12 @@ routes.bookings ..> middleware.auth
 routes.hotels ..> controllers.hotel
 routes.hotels ..> routes.bookings
 routes.hotels ..> middleware.auth
+routes.users ..> controllers.users
+routes.users ..> middleware.auth
 middleware.auth ..> models.User
 controllers.auth ..> models.User
 controllers.bookings ..> models.Booking
 controllers.bookings ..> models.Hotel
 controllers.hotels ..> models.Hotel
-@eneuml
+controllers.users ..> models.User
+@enduml

@@ -1,4 +1,5 @@
 @startuml sequence
+title Get all hotels
 skinparam actorStyle Hollow
 actor user
 participant server
