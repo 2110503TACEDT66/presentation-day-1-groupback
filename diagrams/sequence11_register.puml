@@ -1,0 +1,21 @@
+@startuml sequence
+title Register
+skinparam actorStyle Hollow
+actor user
+participant server
+control router
+control controller
+entity models
+database MongoDB as db
+collections data
+user -> server : POST /api/v1/auth/register
+server -> router : auth
+router -> controller : register
+controller -> models : User.create(req.body)
+models -> db : db.users.insertOne(UserSchema)
+db -> data : document
+db <-- data : response
+models <-- db : user
+controller <-- models : user
+user <-- controller : token
+@enduml

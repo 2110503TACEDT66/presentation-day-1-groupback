@@ -1,0 +1,23 @@
+@startuml sequence
+title Login
+skinparam actorStyle Hollow
+actor user
+participant server
+control router
+control controller
+entity models
+database MongoDB as db
+collections data
+user -> server : POST /api/v1/auth/login
+server -> router : auth
+router -> controller : login
+controller -> models : User.findOne(req.body.email)
+models -> db : db.users.findOne(req.body.email)
+db -> data : query
+db <-- data : response
+models <-- db : user
+controller <-- models : user
+controller -> models : user.matchPassword(req.body.password)
+controller <-- models : response
+user <-- controller : token
+@enduml

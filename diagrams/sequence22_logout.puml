@@ -1,0 +1,15 @@
+@startuml sequence
+title Logout
+skinparam actorStyle Hollow
+actor user
+participant server
+control router
+control controller
+entity models
+database MongoDB as db
+collections data
+user -> server : GET /api/v1/auth/logout
+server -> router : auth
+router -> controller : logout
+user <-- controller : token
+@enduml

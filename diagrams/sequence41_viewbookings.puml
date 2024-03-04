@@ -1,0 +1,22 @@
+@startuml sequence
+title Get all hotels
+skinparam actorStyle Hollow
+actor user
+participant server
+control router
+control controller
+entity models
+database MongoDB as db
+collections data
+user -> server : GET /api/v1/bookings
+server -> router : bookings
+router -> controller : protect
+controller -> controller : getBookings
+controller -> models : Booking.find({user: req.params.id})
+models -> db : db.bookings.find({user: req.params.id})
+db -> data : query
+db <-- data : bookings
+models <-- db : bookings
+controller <-- models : bookings
+user <-- controller : bookings
+@enduml
