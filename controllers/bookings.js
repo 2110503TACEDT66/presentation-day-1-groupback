@@ -24,7 +24,10 @@ exports.getBookings= async (req,res,next)=>{
         }
     }
     try {
-        const bookings = await query;
+        const bookings = await query.populate({
+            path:'user',
+            select:'name tel email'
+        });
 
         res.status(200).json({
             success:true,
@@ -48,11 +51,15 @@ exports.getBookings= async (req,res,next)=>{
 //@access Public
 exports.getBooking= async (req,res,next)=>{
     try {
-        const booking = await Booking.findById(req.params.id).populate({
-            path:'hotel',
-            select:'name rating tel'
-        });
-
+        const booking = await Booking.findById(req.params.id)
+            .populate({
+                path: 'hotel',
+                select: 'name rating tel'
+            })
+            .populate({
+                path: 'user',
+                select: 'name tel email'
+            });
         if (!booking) {
             return res.status(404).json({success:false,massage:`No booking with the id of ${req.params.id}`});
     
