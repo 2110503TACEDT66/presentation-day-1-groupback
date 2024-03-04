@@ -129,9 +129,9 @@ exports.updateUser = async (req, res, next) => {
         }
 
         // if Update password
-        if (req.body.password.toString()) {
+        if (req.body.password) {
             const salt = await bcrypt.genSalt(10);
-            req.body.password = await bcrypt.hash(req.body.password.toString(), salt);
+            req.body.password = await bcrypt.hash(req.body.password, salt);
         }
 
         user = await User.findByIdAndUpdate(req.params.id,req.body,{
