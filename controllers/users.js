@@ -78,7 +78,7 @@ exports.getUsers= async (req,res,next)=>{
 exports.getUser= async (req,res,next)=>{
     try {
         console.log(req.params.id)
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id).populate('mybookings');;
         if (!user) {
             return res.status(400).json({seccess:false});
         }
@@ -117,6 +117,14 @@ exports.updateUser = async (req, res, next) => {
             return res.status(401).json({
                 success: false,
                 massage: `Only admin can update role`
+            });
+        }
+
+        //can not update his _id.
+        if (req.body._id) {
+            return res.status(401).json({
+                success: false,
+                massage: `Can not update _id`
             });
         }
 
