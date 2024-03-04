@@ -67,7 +67,7 @@ exports.getUsers= async (req,res,next)=>{
         res.status(200).json({seccess:true,count:users.length,pageination,data:users});
     } catch (err) {
         console.log(err)
-        res.status(400).json({seccess:false});        
+        return res.status(400).json({seccess:false});        
     }
 }
 
@@ -131,7 +131,7 @@ exports.updateUser = async (req, res, next) => {
 
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
+        return res.status(400).json({
             success: false,
             message: "Cannot update User"
         });
@@ -162,7 +162,7 @@ exports.deleteUser= async(req,res,next)=>{
         res.status(200).json({seccess:true,data:{}});
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
+        return res.status(400).json({
             seccess:false,
             message:"Cannot dalete User"
         });
