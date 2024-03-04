@@ -1,38 +1,101 @@
 @startuml class
-class controllers.auth
-class controllers.bookings
-class controllers.hotels
-class controllers.users
-class middleware.auth
-class models.Booking
-class models.Hotel
-class models.User
+class controllers.auth {
+    + POST register()
+    + POST login()
+    # GET getMe()
+    + GET logout()
+}
+class controllers.bookings {
+    # GET getBookings()
+    # POST addBooking()
+    # GET getBooking(:id)
+    # PUT updateBooking(:id)
+    # DELETE deleteBooking(:id)
+}
+class controllers.hotels {
+    + GET getHotels()
+    - POST createHotels()
+    + GET getHotel(:id)
+    - PUT updateHotel(:id)
+    - DELETE deleteHotel(:id)
+}
+class controllers.users {
+    - GET getUsers()
+    - GET getUser(:id)
+    # PUT updateUser(:id)
+    # DELETE deleteUser(:id)
+}
+class middleware.auth {
+    protect()
+    authroiz(...roles)
+}
+class models.Booking {
+    checkIn
+    checkOut
+    user
+    hotel
+    createdAt
+}
+class models.Hotel {
+    name
+    address
+    district
+    province
+    postalcode
+    tel
+    region
+    rating
+    {field}(bookings)
+    {field}(stars)
+}
+class models.User {
+    name
+    tel
+    email
+    role
+    password
+    <strike>resetPasswordToken</strike>
+    <strike>resetPasswordExpire</strike>
+    createdAt
+    {field}(mybookings)
+    getSignedJwtToken()
+    matchPassword()
+}
 class routes.auth
 class routes.bookings
 class routes.hotels
 class routes.users
 class server
-class config.config
-class config.db
-server ..> config.config
-server ..> config.db
-server ..> routes.hotels
-server ..> routes.auth
-server ..> routes.bookings
-server ..> routes.users
-routes.auth ..> controllers.auth
-routes.auth ..> middleware.auth
-routes.bookings ..> controllers.bookings
-routes.bookings ..> middleware.auth
-routes.hotels ..> controllers.hotel
-routes.hotels ..> routes.bookings
-routes.hotels ..> middleware.auth
-routes.users ..> controllers.users
-routes.users ..> middleware.auth
-middleware.auth ..> models.User
-controllers.auth ..> models.User
-controllers.bookings ..> models.Booking
-controllers.bookings ..> models.Hotel
-controllers.hotels ..> models.Hotel
-controllers.users ..> models.User
+class config.config {
+    PORT
+    NODE_ENV
+    MONGO_URI
+    JWT_SECRET
+    JWT_EXPIRE
+    JWT_COOKIE_EXPIRE
+}
+class config.db {
+    connectDB()
+}
+server ..> config.config : uses
+server ..> config.db : uses
+server ..> routes.hotels : /hotels
+server ..> routes.auth : /auth
+server ..> routes.bookings : /bookings
+server ..> routes.users : /users
+routes.auth ..> controllers.auth : /register, /me,\n/login, /logout
+routes.auth ..> middleware.auth : uses
+routes.bookings ..> controllers.bookings : /, /:id
+routes.bookings ..> middleware.auth : uses
+routes.hotels ..> controllers.hotels : /, /:id
+routes.hotels ..> routes.bookings : /:hotelId/bookings
+routes.hotels ..> middleware.auth : users
+routes.users ..> controllers.users : /, /:id
+routes.users ..> middleware.auth : uses
+middleware.auth ..> models.User : uses
+controllers.auth ..> models.User : uses
+controllers.bookings ..> models.Booking : uses
+controllers.bookings ..> models.Hotel : uses
+controllers.hotels ..> models.Hotel : uses
+controllers.users ..> models.User : uses
 @enduml
