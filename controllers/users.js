@@ -73,7 +73,7 @@ exports.getUsers= async (req,res,next)=>{
 
 //@desc Get single user
 //@route GET /api/v1/users/:id
-//@access Public
+//@access Private
 exports.getUser= async (req,res,next)=>{
     try {
         console.log(req.params.id)

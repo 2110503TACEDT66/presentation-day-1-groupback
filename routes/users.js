@@ -8,7 +8,7 @@ const {protect,authoriz} = require('../middleware/auth');
 
 
 router.route('/').get(protect,authoriz('admin'),getUsers);
-router.route('/:id').get(getUser).put(protect,authoriz('admin','user'),updateUser).delete(protect,authoriz('admin','user'),deleteUser);
+router.route('/:id').get(protect,authoriz('admin'),getUser).put(protect,authoriz('admin','user'),updateUser).delete(protect,authoriz('admin','user'),deleteUser);
 
 
 module.exports = router;
