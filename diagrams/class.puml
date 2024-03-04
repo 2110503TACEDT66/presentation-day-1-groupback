@@ -27,7 +27,7 @@ class controllers.users {
 }
 class middleware.auth {
     protect()
-    authroiz(...roles)
+    authorize(...roles)
 }
 class models.Booking {
     checkIn
