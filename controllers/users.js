@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const bcrypt = require('bcryptjs');
 
 //@desc Get all users
 //@route GET /api/v1/users
@@ -117,6 +118,12 @@ exports.updateUser = async (req, res, next) => {
                 success: false,
                 massage: `Only admin can update role`
             });
+        }
+
+        // if Update password
+        if (req.body.password.toString()) {
+            const salt = await bcrypt.genSalt(10);
+            req.body.password = await bcrypt.hash(req.body.password.toString(), salt);
         }
 
         user = await User.findByIdAndUpdate(req.params.id,req.body,{
