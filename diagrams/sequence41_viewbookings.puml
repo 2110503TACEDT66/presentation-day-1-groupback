@@ -12,8 +12,13 @@ user -> server : GET /api/v1/bookings
 server -> router : bookings
 router -> controller : protect
 controller -> controller : getBookings
-controller -> models : Booking.find({user: req.params.id})
-models -> db : db.bookings.find({user: req.params.id})
+alt role: user
+controller -> models : Booking.find({user: req.user.id})
+models -> db : db.bookings.find({user: req.user.id})
+else role: admin
+controller -> models : Booking.find()
+models -> db : db.bookings.find()
+end
 db -> data : query
 db <-- data : bookings
 models <-- db : bookings
