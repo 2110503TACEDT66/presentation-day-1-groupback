@@ -1,5 +1,5 @@
 @startuml sequence
-title Get one booking
+title New booking
 skinparam actorStyle Hollow
 actor user
 participant server
@@ -8,13 +8,13 @@ control controller
 entity models
 database MongoDB as db
 collections data
-user -> server : GET /api/v1/bookings/:id
+user -> server : PUT /api/v1/bookings
 server -> router : bookings
 router -> controller : protect
-controller -> controller : getBooking
-controller -> models : Booking.findById(:id)
-models -> db : db.bookings.find({_id: :id})
-db -> data : query
+controller -> controller : addBooking
+controller -> models : Booking.create(req.body)
+models -> db : db.bookings.insertOne(req.body)
+db -> data : document
 db <-- data : booking
 models <-- db : booking
 controller <-- models : booking

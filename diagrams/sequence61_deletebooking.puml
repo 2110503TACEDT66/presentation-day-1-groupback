@@ -1,0 +1,22 @@
+@startuml sequence
+title Delete booking
+skinparam actorStyle Hollow
+actor user
+participant server
+control router
+control controller
+entity models
+database MongoDB as db
+collections data
+user -> server : DELETE /api/v1/bookings/:id
+server -> router : bookings/:id
+router -> controller : protect
+controller -> controller : deleteBooking
+controller -> models : Booking.findByIdAndRemove(:id)
+models -> db : db.bookings.findOneAndDelete({_id: :id})
+db -> data : delete
+db <-- data : <i>null</i>
+models <-- db : <i>null</i>
+controller <-- models : <i>null</i>
+user <-- controller : <i>null</i>
+@enduml

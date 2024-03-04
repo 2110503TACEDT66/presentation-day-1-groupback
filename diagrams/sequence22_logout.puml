@@ -11,5 +11,5 @@ collections data
 user -> server : GET /api/v1/auth/logout
 server -> router : auth
 router -> controller : logout
-user <-- controller : token
+user <-- controller : <i>null</i>
 @enduml
